@@ -3,7 +3,6 @@
 import json
 import requests
 import sys
-import csv
 
 if __name__ == "__main__":
     user_id = sys.argv[1]
