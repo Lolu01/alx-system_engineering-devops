@@ -1,6 +1,9 @@
 #!/usr/bin/python3
-
+"""
+    Uses reddit API to get 10 hot posts
+"""
 import requests
+
 
 def top_ten(subreddit):
     """Prints the titles of the first 10 hot posts for a given subreddit."""
@@ -9,9 +12,12 @@ def top_ten(subreddit):
     response = requests.get(url, headers=headers, allow_redirects=False)
 
     if response.status_code == 200:
-        data = response.json()
+        print(None)
+        return
+
+    data = response.json().get("data").get("children")
         posts = data['data'].get('children', [])
         for post in posts:
             print(post['data']['title'])
     else:
-        print(None)
+        print(top_10_posts)
