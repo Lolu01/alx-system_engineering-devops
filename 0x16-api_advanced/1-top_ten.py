@@ -1,33 +1,17 @@
 #!/usr/bin/python3
-"""
-
-Defines the number_of_subscribers function
-"""
 
 import requests
 
+def top_ten(subreddit):
+    """Prints the titles of the first 10 hot posts for a given subreddit."""
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+    headers = {'User-Agent': 'myUserAgent/0.0.1'}
+    response = requests.get(url, headers=headers, allow_redirects=False)
 
-def number_of_subscribers(subreddit):
-    """
-    Queries the Reddit API and returns the number of subscribers for a given subreddit.
-    If an invalid subreddit is provided, the function returns 0.
-    
-    Parameters:
-    subreddit (str): The name of the subreddit.
-
-    Returns:
-    int: The number of subscribers to the subreddit or 0 if the subreddit is invalid.
-    """
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {"User-Agent": "python:subreddit.subscriber.counter:v1.0 (by /u/your_username)"}
-    
-    try:
-        response = requests.get(url, headers=headers, allow_redirects=False)
-        if response.status_code == 200:
-            data = response.json().get('data', {})
-            return data.get('subscribers', 0)
-        else:
-            return 0
-    except requests.RequestException:
-        return 0
-
+    if response.status_code == 200:
+        data = response.json()
+        posts = data['data'].get('children', [])
+        for post in posts:
+            print(post['data']['title'])
+    else:
+        print(None)
